@@ -1,0 +1,83 @@
+            HOWTO INSTALL CYANOGEN MOD 6 ON YOUR XPERIA MINI PRO
+
+EVERYTHING YOU DO TO YOUR PHONE IS ENTIRELY YOUR OWN RESPOSIBILITY. IF YOU 
+BRICK YOUR PHONE DURING THE PROCESS, ITS ABSOLUTELY YOUR OWN PROBLEM. YOU HAVE
+BEEN WARNED. ONLY DO THIS IF YOU KNOW WHAT YOU'RE DOING.
+
+- Root your phone. For instance, download `SuperOneClickv1.5.5-ShortFuse.zip' 
+  here: http://www.mediafire.com/?7ytrvpiwi8i44mk
+  Unfortunately, you'll need a Windows box for this to work properly, or you
+  hack your way around Windows. Just get root some way.
+
+- Once you've got root access, install the Xrecovery tool. Download the zip 
+  file from here:
+  http://www.mirrorcreator.com/files/QRPSMT2O/xRecovery-mini-0.1-beta-with_boot_fix.rar_links
+
+  On your host machine, unpack the rar:
+  $ unrar e xRecovery-mini-0.1-beta-with_boot_fix.rar
+
+  Rename the correct chargemon script: (This is the correct one for xperia mini
+  pro, YMMV)
+  $ mv chargemon\ x10pro chargemon
+
+  Now copy the files busybox, chargemon, charger and xrecovery.tar to your SD
+  card. (Connect the phone via USB, make sure you can mount the SD card)
+  # mount /dev/sdb1 /media/xperia
+  # cp busybox chargemon charger xrecovery.tar /media/xperia
+  # umount /media/xperia
+
+  Make sure to deselect the USB copying of files for the SD card now on your 
+  phone, so you see the SD card again under /sdcard on your phone
+
+  On your Android phone, get a local shell, become root. Remount the /system
+  partition read-write:
+  # mount -o remount,rw /dev/block/mtdblock1 /system
+
+  Copy busybox first: (Note that for some reason you can't use `mv' for this)
+  # cat /sdcard/busybox /system/bin/busybox
+
+  Change access mode for busybox: 
+  # chmod 755 /system/bin/busybox
+
+  Copy the rest with busybox:
+  # busybox sh
+  # cp /sdcard/chargemon /sdcard/charger /sdcard/xrecovery.tar /system/bin
+
+  Change access mode for the remaining two executables:
+  # chmod 755 /system/bin/chargemon /system/bin/charger
+
+- Download some custom Cyanogen mod zip file. For instance, download version 6
+  here: http://www.multiupload.com/SNT8G7DUDW
+  After the zip file is downloaded, make sure the md5sum is correct:
+  $ md5sum MiniCMPro_final.zip 
+  7b3b3536285630316f28aaa09ecc71d0  MiniCMPro_final.zip
+
+  Mount your SD card on the local host machine and copy the zip file:
+  # mount /dev/sdb1 /media/xperia
+  # cp MiniCMPro_final.zip /media/xperia
+  # sync 
+  # umount /media/xperia
+
+- Reboot your phone. Keep pressing the back button while the phone is booting
+  and you can see the white Sony Ericsson logo. This way you'll enter into the
+  Xrecovery menu screen. Select to install a crustom ROM from there, and then
+  select the directory where you stored your ROM before. Select the .zip file
+  and choose to install it following the menu.
+
+  The installation process will start and at the end, you'll see something like
+  `Install from sdcard complete'. That's where you reboot your phone into the
+  shiny new Cyanogen mod.
+
+FAQ:
+
+- Q: After flashing the phone with Cyanogen Mod 6, `final version', the phone
+     keeps rebooting after the white Sony Ericsson logo. What can I do?
+  A: I had to download and install Cyanogen Mod 6, v4. That one worked for me.
+
+USEFUL LINKS
+
+- http://xperiaminicyanogen.wordpress.com/
+- http://eatmytux.com/posts/x10_xperia10_mini_pro_android_ginger_bread_cyanogenmod/
+
+--
+Christian Fromme <kaner@strace.org>
